@@ -29,7 +29,7 @@ const lettersArray = [
     {"key": "z"}
   ]
 
-export default function Keypad({ handleKeyUp }) {
+export default function Keypad({ handleKeyUp, usedKeys }) {
   const [letters, setLetters] = useState(null);
 
   useEffect(() => {
@@ -39,8 +39,9 @@ export default function Keypad({ handleKeyUp }) {
   return (
     <div className="keypad">
       {letters && letters.map((letter) => {
+        const color = usedKeys[letter.key];
         return (
-          <button key={letter.key} onClick={() => handleKeyUp({key: letter.key})}>
+          <button className={color} disabled={color === 'grey'} key={letter.key} onClick={() => handleKeyUp({key: letter.key})}>
             {letter.key}
           </button>
         );
