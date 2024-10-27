@@ -128,6 +128,19 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+.modal div > button {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  background: #5ac85a;
+  font-size: 0.9em;
+  width: 100px;
+  text-align: center;
+  width: 120px;
+  padding: 8px;
+  border-radius: 1px;
+  margin: 20px auto 0;
+}
 
 /* animations */
 @keyframes flip {
