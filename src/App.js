@@ -5,7 +5,7 @@ import ReactConfetti from 'react-confetti';
 
 function App() {
   const [solution, setSolution] = useState(null);
-  const [winState, setWinState] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(null);
 
   useEffect(() => {
     fetch("https://random-word-api.herokuapp.com/word?length=5")
@@ -15,9 +15,9 @@ function App() {
 
   return (
     <div className="App">
-      {winState && <ReactConfetti width={window.innerWidth} height={window.innerHeight} tweenDuration={1000} /> }
+      {showConfetti && <ReactConfetti width={window.innerWidth} height={window.innerHeight} tweenDuration={1000} /> }
       <h1>Wordler</h1>
-      {solution && <Wordle solution={solution} setWinState={setWinState} /> }
+      {solution && <Wordle solution={solution} setShowConfetti={setShowConfetti} /> }
     </div>
   );
 }
