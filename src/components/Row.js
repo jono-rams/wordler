@@ -1,5 +1,14 @@
-export default function Row() {
+export default function Row({ guess }) {
   
+  if (guess) {
+    return (
+      <div className='row'>
+        {guess.map((letter, index) => (
+          <div key={index} className={letter.color}>{letter.key}</div>
+        ))}
+      </div>
+    )
+  }
   
   return (
     <div className='row'>
