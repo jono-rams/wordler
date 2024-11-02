@@ -21,5 +21,5 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDLER_2A03E }}
-          channelId: preview-2.0
+          channelId: preview
           projectId: wordler-2a03e
