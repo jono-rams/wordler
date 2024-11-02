@@ -31,14 +31,16 @@ export default function Wordle({ setShowConfetti }) {
       window.removeEventListener('keyup', handleKeyUp);
     }
     if (turn > 5) {
-      getSolution().then(() => {
-      setTimeout(() => setShowModal(true), 2000)
-      window.removeEventListener('keyup', handleKeyUp);
+      if (!solution) {
+        getSolution().then(() => {
+          setTimeout(() => setShowModal(true), 2000)
+          window.removeEventListener('keyup', handleKeyUp);
     })
+  }
   }
 
     return () => window.removeEventListener('keyup', handleKeyUp);
-  }, [handleKeyUp, isCorrect, setShowConfetti, turn, confettiShown]);
+  }, [handleKeyUp, isCorrect, setShowConfetti, turn, confettiShown, getSolution, solution]);
 
   return (
     <div>
