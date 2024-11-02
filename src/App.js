@@ -50,10 +50,8 @@ function App() {
 
   return (
     <div className="App">
-      {showConfetti && <ReactConfetti width={window.innerWidth} height={window.innerHeight} tweenDuration={1000} /> }
       {showConfetti && <ReactConfetti width={window.innerWidth} height={window.innerHeight} tweenDuration={1000} />}
       <h1>Wordler</h1>
-      {solution && <Wordle solution={solution} setShowConfetti={setShowConfetti} /> }
       {solution && <Wordle solution={solution} setShowConfetti={setShowConfetti} />}
       {error && <div>Random Word API is currently offline</div>}
     </div>
