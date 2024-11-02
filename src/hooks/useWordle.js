@@ -1,58 +1,52 @@
 import { useState } from "react";
 
-const useWordle = (solution) => {
+const useWordle = () => {
   const [turn, setTurn] = useState(0);
   const [currentGuess, setCurrentGuess] = useState('');
   const [guesses, setGuesses] = useState([...Array(6)]);
   const [history, setHistory] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [usedKeys, setUsedKeys] = useState({}); //{a: 'green', b: 'yellow', c: 'grey'}
+  const [uid, setUid] = useState(null);
+  const [solution, setSolution] = useState(null);
 
-  // format a guess into an array of letter objects
-  // e.g. [{key: 'a', color: 'yellow}]
-  const formatGuess = () => {
-    let solutionArray = [...solution];
-    let formattedGuess = [...currentGuess].map(letter => {
-      return { key: letter, color: 'grey'};
+  const getSolution = async () => {
+    const response = await fetch('/solution?uid=' + uid, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
     });
+    const data = await response.json();
 
-    // find any green letters
-    formattedGuess.forEach((letter, index) => {
-      if (solutionArray[index] === letter.key) {
-        formattedGuess[index].color = 'green';
-        solutionArray[index] = null;
-      }
-    });
+    setSolution(data.solution);
+  }
 
-    // find any yellow letters
-    formattedGuess.forEach((letter, index) => {
-      if (solutionArray.includes(letter.key) && letter.color !== 'green') {
-        formattedGuess[index].color = 'yellow';
-        solutionArray[solutionArray.indexOf(letter.key)] = null;
-      }
-    });
+  const newGame = async () => {
+    const response = await fetch('/new-word');
+    const data = await response.json();
 
-    return formattedGuess;
+    return data.uid;
   };
 
   // add a new guess to the guesses state
   // update the isCorrect state if the guess is correct
   // add one turn to the turn state
-  const addNewGuess = (formattedGuess) => {
-    if(currentGuess === solution) {
+  const addNewGuess = (result) => {
+    if (result.every(letter => letter.color === 'green')) {
       setIsCorrect(true);
+      getSolution();
     }
+
     setGuesses((prev) => {
       let newGuesses = [...prev];
-      newGuesses[turn] = formattedGuess;
+      newGuesses[turn] = result;
       return newGuesses;
     });
     setHistory((prev) => [...prev, currentGuess]);
     setTurn((prev) => prev + 1);
     setUsedKeys((prev) => {
-      let newKeys = {...prev};
+      let newKeys = { ...prev };
 
-      formattedGuess.forEach(letter => {
+      result.forEach(letter => {
         const currentColor = newKeys[letter.key];
 
         if (letter.color === 'green') {
@@ -96,19 +90,29 @@ const useWordle = (solution) => {
         console.log('You already tried that word');
         return;
       }
-      
-      const formatted = formatGuess();
-      addNewGuess(formatted);
+
+      console.log(uid);
+
+      fetch('/guess', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uid: uid,
+          guess: currentGuess
+        })
+      })
+        .then(response => response.json())
+        .then(data => addNewGuess(data.result));
     }
     else if (/^[A-Za-z]$/.test(key)) {
-      if(currentGuess.length < 5) {
+      if (currentGuess.length < 5) {
         setCurrentGuess((prev) => prev + key.toLowerCase());
       }
     }
   };
 
-  return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyUp};
+  return { getSolution, solution, newGame, turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyUp, setUid, uid };
 
-}
+};
 
 export default useWordle;
