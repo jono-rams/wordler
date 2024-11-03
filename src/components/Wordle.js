@@ -30,7 +30,7 @@ export default function Wordle({ setShowConfetti }) {
       window.removeEventListener('keyup', handleKeyUp);
     }
     if (turn > 5) {
-      if (!solution) {
+      if (!solution && !isCorrect) {
         getSolution().then(() => {
           setTimeout(() => setShowModal(true), 2000);
           window.removeEventListener('keyup', handleKeyUp);
