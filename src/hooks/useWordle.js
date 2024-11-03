@@ -100,8 +100,14 @@ const handleKeyUp = ({ key }) => {
           guess: currentGuess
         })
       })
-        .then(response => response.json())
-        .then(data => addNewGuess(data.result));
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          response.json()
+        })
+        .then(data => addNewGuess(data.result))
+        .catch(err => console.error("Error fetching guess result:", err));
   }
   else if (/^[A-Za-z]$/.test(key)) {
     if(currentGuess.length < 5) {
