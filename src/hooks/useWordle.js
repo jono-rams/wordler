@@ -91,7 +91,6 @@ const handleKeyUp = ({ key }) => {
       return;
     }
 
-    console.log(uid);
       fetch('https://wordle-api.rampersad-jonathan.workers.dev/api/guess', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
