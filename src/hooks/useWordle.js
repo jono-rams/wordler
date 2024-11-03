@@ -104,7 +104,7 @@ const handleKeyUp = ({ key }) => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          response.json()
+          return response.json()
         })
         .then(data => addNewGuess(data.result))
         .catch(err => console.error("Error fetching guess result:", err));
