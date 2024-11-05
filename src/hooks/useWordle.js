@@ -125,6 +125,9 @@ const useWordle = () => {
       setIsCorrect(true);
       getSolution();
     }
+    if (turn === 5) {
+      getSolution();
+    }
 
     setGuesses((prev) => {
       let newGuesses = [...prev];
@@ -213,7 +216,6 @@ const useWordle = () => {
 
   // Return an object with all the state variables and functions
   return { 
-    getSolution, 
     solution, 
     newGame, 
     turn, 

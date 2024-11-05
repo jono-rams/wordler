@@ -12,8 +12,8 @@ import Modal from "./Modal";
  * @returns {JSX.Element} The rendered Wordle game component.
  */
 export default function Wordle({ setShowConfetti }) {
-   // Initialize state variables from the useWordle hook
-  const { currentGuess, handleKeyUp, guesses, isCorrect, turn, usedKeys, solution, newGame, uid, setUid, getSolution } = useWordle();
+  // Initialize state variables from the useWordle hook
+  const { currentGuess, handleKeyUp, guesses, isCorrect, turn, usedKeys, solution, newGame, uid, setUid } = useWordle();
   /**
    * State variable to control the visibility of the modal.
    * @type {boolean}
@@ -61,19 +61,15 @@ export default function Wordle({ setShowConfetti }) {
 
     // If the user has used all their turns
     if (turn > 5) {
-      // If the solution hasn't been fetched and the guess is incorrect
-      if (!solution && !isCorrect) {
-        // Fetch the solution and then show the modal after a delay
-        getSolution().then(() => {
-          setTimeout(() => setShowModal(true), 2000);
-          window.removeEventListener('keyup', handleKeyUp);
-        });
-      }
+      // Show the modal after a delay
+      setTimeout(() => {
+        setShowModal(true);
+      }, 2500);
     }
 
     // Cleanup function to remove the event listener when the component unmounts
     return () => window.removeEventListener('keyup', handleKeyUp);
-  }, [handleKeyUp, isCorrect, setShowConfetti, turn, confettiShown, getSolution, solution]);
+  }, [handleKeyUp, isCorrect, setShowConfetti, turn, confettiShown]);
 
   // Render the game components
   return (
