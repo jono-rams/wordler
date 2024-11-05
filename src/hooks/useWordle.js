@@ -32,10 +32,10 @@ const useWordle = () => {
    */
   const [history, setHistory] = useState([]);
 
-   /**
-   * A boolean indicating if the user has guessed the correct word.
-   * @type {boolean}
-   */
+  /**
+  * A boolean indicating if the user has guessed the correct word.
+  * @type {boolean}
+  */
   const [isCorrect, setIsCorrect] = useState(false);
 
   /**
@@ -125,8 +125,10 @@ const useWordle = () => {
       setIsCorrect(true);
       getSolution();
     }
-    if (turn === 5) {
-      getSolution();
+    else if (turn === 5) {
+      if (!solution) {
+        getSolution();
+      }
     }
 
     setGuesses((prev) => {
@@ -215,19 +217,19 @@ const useWordle = () => {
   };
 
   // Return an object with all the state variables and functions
-  return { 
-    solution, 
-    newGame, 
-    turn, 
-    currentGuess, 
-    guesses, 
-    isCorrect, 
-    usedKeys, 
-    handleKeyUp, 
-    setUid, 
-    uid, 
-    isLoading, 
-    errorMessage 
+  return {
+    solution,
+    newGame,
+    turn,
+    currentGuess,
+    guesses,
+    isCorrect,
+    usedKeys,
+    handleKeyUp,
+    setUid,
+    uid,
+    isLoading,
+    errorMessage
   };
 };
 
