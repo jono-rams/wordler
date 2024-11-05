@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: App.js</title>
+    <title>JSDoc: Source: components/Grid.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: App.js</h1>
+    <h1 class="page-title">Source: components/Grid.js</h1>
 
     
 
@@ -26,36 +26,32 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
-import './App.css';
-import Wordle from './components/Wordle';
-import ReactConfetti from 'react-confetti';
+            <pre class="prettyprint source linenums"><code>import Row from "./Row";
 
 /**
- * Main App component for the Wordle game.
+ * Component for rendering the Wordle game grid.
  * 
- * @returns {JSX.Element} The rendered application.
+ * @param {object} props - Component props.
+ * @param {string} props.currentGuess - The current word being entered by the user.
+ * @param {array} props.guesses - An array of previous guesses.
+ * @param {number} props.turn - The current turn number.
+ * @returns {JSX.Element} The rendered game grid.
  */
-function App() {
-  /**
-   * State variable to control the visibility of the confetti.
-   * @type {boolean}
-   */
-  const [showConfetti, setShowConfetti] = useState(null);
-
-  // Render the app content
+export default function Grid({ currentGuess, guesses, turn }) {
+  // Render the grid rows
   return (
-    &lt;div className="App">
-      {/* Conditionally render confetti when showConfetti is true */}
-      {showConfetti &amp;&amp; &lt;ReactConfetti width={window.innerWidth} height={window.innerHeight} tweenDuration={1000} />}
-      &lt;h1>Wordler&lt;/h1>
-      &lt;Wordle setShowConfetti={setShowConfetti} />
+    &lt;div>
+      {guesses.map((guess, index) => {
+        // If the current row matches the current turn, render it with the currentGuess prop
+        if (turn === index) {
+          return &lt;Row key={index} currentGuess={currentGuess} />
+        }
+        // Otherwise, render the row with the guess prop
+        return &lt;Row key={index} guess={guess} />
+      })}
     &lt;/div>
-  );
-}
-
-export default App;
-</code></pre>
+  )
+}</code></pre>
         </article>
     </section>
 
