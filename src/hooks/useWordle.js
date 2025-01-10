@@ -152,7 +152,7 @@ const useWordle = () => {
           newKeys[letter.key] = 'yellow';
           return;
         }
-        if (letter.color === 'grey' && (currentColor !== 'green' || currentColor !== 'yellow')) {
+        if (letter.color === 'grey' && currentColor !== 'green' && currentColor !== 'yellow') {
           newKeys[letter.key] = 'grey';
           return;
         }
